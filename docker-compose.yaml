@@ -1,0 +1,13 @@
+version: '5'
+
+services:
+  postgres:
+    image: 'postgres:18'
+    container_name: 'postgres-spring'
+    ports:
+      - 5432:5432
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=password'
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+      - 'POSTGRES_DB=postgres'
