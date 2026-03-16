@@ -4,3 +4,12 @@ CREATE TABLE public.Users (
     email    VARCHAR NOT NULL,
     password VARCHAR NOT NULL
 );
+
+select
+    u.email,
+    u."id",
+    u."name",
+    u."password"
+from
+    users u;
+

@@ -35,9 +35,13 @@ public class DefaultUserService implements UserService {
                 request.password());
         userRepository.save(userEntity);
 
-        UserEvent userEvent = new UserEvent(userEntity.getEmail(), Operation.CREATE);
+        if (kafkaTemplate != null) {
+            UserEvent userEvent = new UserEvent(userEntity.getEmail(), Operation.CREATE);
 
-        return getUserDTO(userEntity, userEvent);
+            return getUserDTO(userEntity, userEvent);
+        } else {
+            return userMapper.entityToDto(userEntity);
+        }
     }
 
     private UserDTO getUserDTO(UserEntity userEntity, UserEvent userEvent) {
@@ -71,8 +75,11 @@ public class DefaultUserService implements UserService {
         UserEntity userEntity = userRepository.findById(id).orElseThrow();
         userRepository.delete(userEntity);
 
-        UserEvent userEvent = new UserEvent(userEntity.getEmail(), Operation.DELETE);
-
-        return getUserDTO(userEntity, userEvent);
+        if (kafkaTemplate != null) {
+            UserEvent userEvent = new UserEvent(userEntity.getEmail(), Operation.DELETE);
+            return getUserDTO(userEntity, userEvent);
+        } else {
+            return userMapper.entityToDto(userEntity);
+        }
     }
 }

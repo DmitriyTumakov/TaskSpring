@@ -1,5 +1,11 @@
 package ru.tumakov.userservice.controller.impl;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.*;
 import ru.tumakov.userservice.controller.UserController;
 import ru.tumakov.userservice.dto.UserDTO;
@@ -16,26 +22,65 @@ public class DefaultUserController implements UserController {
     }
 
     @Override
+    @Operation(summary = "Создание пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь создан"),
+            @ApiResponse(responseCode = "400", description = "В запросе присутствует ошибка")
+    })
     @PostMapping("/create")
-    public UserDTO createUser(@RequestBody UserCreateRequest request) {
-        return userService.createUser(request);
+    public EntityModel<UserDTO> createUser(@RequestBody UserCreateRequest request) {
+        UserDTO userDTO = userService.createUser(request);
+
+        Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(DefaultUserController.class).createUser(request))
+                .withSelfRel();
+
+        return EntityModel.of(userDTO, link);
     }
 
     @Override
+    @Operation(summary = "Получение информации о пользователе по ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь получен"),
+            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+    })
     @GetMapping("/get/{id}")
-    public UserDTO getUser(@PathVariable Long id) {
-        return userService.getUser(id);
+    public EntityModel<UserDTO> getUser(@PathVariable Long id) {
+        UserDTO userDTO = userService.getUser(id);
+
+        Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(DefaultUserController.class).getUser(id))
+                .withSelfRel();
+
+        return EntityModel.of(userDTO, link);
     }
 
     @Override
+    @Operation(summary = "Обновление профиля пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Профиль обновлён"),
+    })
     @PatchMapping("/update/{id}")
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest request) {
-        return userService.updateUser(id, request);
+    public EntityModel<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest request) {
+        UserDTO userDTO = userService.updateUser(id, request);
+
+        Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(DefaultUserController.class).updateUser(id, request))
+                .withSelfRel();
+
+        return EntityModel.of(userDTO, link);
     }
 
     @Override
+    @Operation(summary = "Создание пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь удалён"),
+            @ApiResponse(responseCode = "400", description = "В запросе присутствует ошибка")
+    })
     @DeleteMapping("/remove/{id}")
-    public UserDTO deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id);
+    public EntityModel<UserDTO> deleteUser(@PathVariable Long id) {
+        UserDTO userDTO = userService.deleteUser(id);
+
+        Link link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(DefaultUserController.class).deleteUser(id))
+                .withSelfRel();
+
+        return EntityModel.of(userDTO, link);
     }
 }

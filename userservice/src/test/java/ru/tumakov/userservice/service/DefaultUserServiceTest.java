@@ -41,8 +41,8 @@ class DefaultUserServiceTest {
                 new UserCreateRequest(expected.getName(), expected.getEmail(), expected.getPassword()));
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.getName(), result.name());
-        Assertions.assertEquals(expected.getEmail(), result.email());
+        Assertions.assertEquals(expected.getName(), result.getName());
+        Assertions.assertEquals(expected.getEmail(), result.getEmail());
     }
 
     @Test
@@ -54,8 +54,8 @@ class DefaultUserServiceTest {
         UserDTO result = userService.getUser(1L);
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(expected.getName(), result.name());
-        Assertions.assertEquals(expected.getEmail(), result.email());
+        Assertions.assertEquals(expected.getName(), result.getName());
+        Assertions.assertEquals(expected.getEmail(), result.getEmail());
     }
 
     @Test
@@ -77,7 +77,7 @@ class DefaultUserServiceTest {
         UserDTO result = userService.updateUser(1L,
                 new UserUpdateRequest(Optional.of("NewTest"), Optional.empty(), Optional.empty()));
 
-        Assertions.assertEquals(expected.getName(), result.name());
+        Assertions.assertEquals(expected.getName(), result.getName());
     }
 
     @Test

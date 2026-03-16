@@ -39,7 +39,6 @@ class DefaultUserControllerTest {
     @Test
     void createUser() {
         UserCreateRequest request = new UserCreateRequest("test", "test@mail.ru", "testpassword");
-
         UserDTO result = client.post().uri("/create")
                 .contentType(MediaType.APPLICATION_JSON).bodyValue(request)
                 .exchange()
@@ -48,26 +47,25 @@ class DefaultUserControllerTest {
                 .getResponseBody();
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(request.name(), result.name());
-        Assertions.assertEquals(request.email(), result.email());
-        Assertions.assertEquals(request.password(), result.password());
+        Assertions.assertEquals(request.name(), result.getName());
+        Assertions.assertEquals(request.email(), result.getEmail());
+        Assertions.assertEquals(request.password(), result.getPassword());
     }
 
     @Test
     void getUser() {
         UserCreateRequest request = new UserCreateRequest("test", "test@mail.ru", "testpassword");
         UserDTO user = defaultUserService.createUser(request);
-
-        UserDTO result = client.get().uri("/get/{id}", user.id())
+        UserDTO result = client.get().uri("/get/{id}", user.getId())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(UserDTO.class).returnResult()
                 .getResponseBody();
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(request.name(), result.name());
-        Assertions.assertEquals(request.email(), result.email());
-        Assertions.assertEquals(request.password(), result.password());
+        Assertions.assertEquals(request.name(), result.getName());
+        Assertions.assertEquals(request.email(), result.getEmail());
+        Assertions.assertEquals(request.password(), result.getPassword());
     }
 
     @Test
@@ -79,7 +77,7 @@ class DefaultUserControllerTest {
                 Optional.of("newtestpassword"));
         UserDTO user = defaultUserService.createUser(request);
 
-        UserDTO result = client.patch().uri("/update/{id}", user.id())
+        UserDTO result = client.patch().uri("/update/{id}", user.getId())
                 .contentType(MediaType.APPLICATION_JSON).bodyValue(updateRequest)
                 .exchange()
                 .expectStatus().isOk()
@@ -87,9 +85,9 @@ class DefaultUserControllerTest {
                 .getResponseBody();
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(updateRequest.name().get(), result.name());
-        Assertions.assertEquals(updateRequest.email().get(), result.email());
-        Assertions.assertEquals(updateRequest.password().get(), result.password());
+        Assertions.assertEquals(updateRequest.name().get(), result.getName());
+        Assertions.assertEquals(updateRequest.email().get(), result.getEmail());
+        Assertions.assertEquals(updateRequest.password().get(), result.getPassword());
     }
 
     @Test
@@ -97,12 +95,12 @@ class DefaultUserControllerTest {
         UserCreateRequest request = new UserCreateRequest("test", "test@mail.ru", "testpassword");
         UserDTO user = defaultUserService.createUser(request);
 
-        client.delete().uri("/remove/{id}", user.id())
+        client.delete().uri("/remove/{id}", user.getId())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(UserDTO.class).returnResult()
                 .getResponseBody();
-        client.get().uri("/get/{id}", user.id())
+        client.get().uri("/get/{id}", user.getId())
                 .exchange()
                 .expectStatus().isNotFound();
     }

@@ -3,8 +3,6 @@ package ru.tumakov.notificationservice.handler;
 import com.icegreen.greenmail.configuration.GreenMailConfiguration;
 import com.icegreen.greenmail.junit5.GreenMailExtension;
 import com.icegreen.greenmail.util.ServerSetupTest;
-import ru.tumakov.notificationservice.event.UserEvent;
-import ru.tumakov.notificationservice.type.Operation;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.*;
@@ -13,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
+import ru.tumakov.event.UserEvent;
+import ru.tumakov.type.Operation;
 
 import java.io.IOException;
 
