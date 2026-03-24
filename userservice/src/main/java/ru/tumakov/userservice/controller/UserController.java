@@ -1,7 +1,7 @@
 package ru.tumakov.userservice.controller;
 
 import org.springframework.hateoas.EntityModel;
-import ru.tumakov.userservice.dto.UserDTO;
+import ru.tumakov.servicedata.dto.UserDTO;
 import ru.tumakov.userservice.request.UserCreateRequest;
 import ru.tumakov.userservice.request.UserUpdateRequest;
 

@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import ru.tumakov.event.UserEvent;
-import ru.tumakov.type.Operation;
+import ru.tumakov.servicedata.event.UserEvent;
+import ru.tumakov.servicedata.type.Operation;
 
 @Service
 public class MailService {

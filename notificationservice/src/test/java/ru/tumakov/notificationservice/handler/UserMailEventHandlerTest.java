@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
-import ru.tumakov.event.UserEvent;
-import ru.tumakov.type.Operation;
+import ru.tumakov.servicedata.event.UserEvent;
+import ru.tumakov.servicedata.type.Operation;
 
 import java.io.IOException;
 

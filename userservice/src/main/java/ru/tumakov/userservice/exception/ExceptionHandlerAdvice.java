@@ -18,4 +18,9 @@ public class ExceptionHandlerAdvice {
     public ResponseEntity<Object> exceptionHandler(NoSuchElementException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(ServerUnavailable.class)
+    public ResponseEntity<Object> exceptionHandler(ServerUnavailable e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+    }
 }

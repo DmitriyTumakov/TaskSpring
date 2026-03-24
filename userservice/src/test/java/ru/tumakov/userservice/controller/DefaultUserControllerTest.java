@@ -10,7 +10,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import ru.tumakov.userservice.dto.UserDTO;
+import ru.tumakov.servicedata.dto.UserDTO;
 import ru.tumakov.userservice.request.UserCreateRequest;
 import ru.tumakov.userservice.request.UserUpdateRequest;
 import ru.tumakov.userservice.service.impl.DefaultUserService;
@@ -39,7 +39,7 @@ class DefaultUserControllerTest {
     @Test
     void createUser() {
         UserCreateRequest request = new UserCreateRequest("test", "test@mail.ru", "testpassword");
-        UserDTO result = client.post().uri("/create")
+        UserDTO result = client.post().uri("/user/create")
                 .contentType(MediaType.APPLICATION_JSON).bodyValue(request)
                 .exchange()
                 .expectStatus().isOk()
@@ -56,7 +56,7 @@ class DefaultUserControllerTest {
     void getUser() {
         UserCreateRequest request = new UserCreateRequest("test", "test@mail.ru", "testpassword");
         UserDTO user = defaultUserService.createUser(request);
-        UserDTO result = client.get().uri("/get/{id}", user.getId())
+        UserDTO result = client.get().uri("/user/get/{id}", user.getId())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(UserDTO.class).returnResult()
@@ -77,7 +77,7 @@ class DefaultUserControllerTest {
                 Optional.of("newtestpassword"));
         UserDTO user = defaultUserService.createUser(request);
 
-        UserDTO result = client.patch().uri("/update/{id}", user.getId())
+        UserDTO result = client.patch().uri("/user/update/{id}", user.getId())
                 .contentType(MediaType.APPLICATION_JSON).bodyValue(updateRequest)
                 .exchange()
                 .expectStatus().isOk()
@@ -95,12 +95,12 @@ class DefaultUserControllerTest {
         UserCreateRequest request = new UserCreateRequest("test", "test@mail.ru", "testpassword");
         UserDTO user = defaultUserService.createUser(request);
 
-        client.delete().uri("/remove/{id}", user.getId())
+        client.delete().uri("/user/remove/{id}", user.getId())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(UserDTO.class).returnResult()
                 .getResponseBody();
-        client.get().uri("/get/{id}", user.getId())
+        client.get().uri("/user/get/{id}", user.getId())
                 .exchange()
                 .expectStatus().isNotFound();
     }

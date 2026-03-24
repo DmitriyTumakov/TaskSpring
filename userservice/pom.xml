@@ -127,8 +127,15 @@
         </dependency>
 
         <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot2</artifactId>
+            <version>2.3.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>ru.tumakov</groupId>
-            <artifactId>userevent</artifactId>
+            <artifactId>servicedata</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
