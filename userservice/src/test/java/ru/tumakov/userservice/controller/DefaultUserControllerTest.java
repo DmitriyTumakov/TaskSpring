@@ -10,7 +10,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import ru.tumakov.servicedata.dto.UserDTO;
+import ru.tumakov.userservice.dto.UserDTO;
 import ru.tumakov.userservice.request.UserCreateRequest;
 import ru.tumakov.userservice.request.UserUpdateRequest;
 import ru.tumakov.userservice.service.impl.DefaultUserService;

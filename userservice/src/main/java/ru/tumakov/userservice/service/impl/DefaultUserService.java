@@ -5,7 +5,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import ru.tumakov.servicedata.event.UserEvent;
 import ru.tumakov.servicedata.type.Operation;
-import ru.tumakov.servicedata.dto.UserDTO;
+import ru.tumakov.userservice.dto.UserDTO;
 import ru.tumakov.userservice.entity.UserEntity;
 import ru.tumakov.userservice.mapper.UserMapper;
 import ru.tumakov.userservice.repository.UserRepository;

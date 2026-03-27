@@ -9,7 +9,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.*;
 import ru.tumakov.userservice.controller.UserController;
-import ru.tumakov.servicedata.dto.UserDTO;
+import ru.tumakov.userservice.dto.UserDTO;
 import ru.tumakov.userservice.exception.ServerUnavailable;
 import ru.tumakov.userservice.request.UserCreateRequest;
 import ru.tumakov.userservice.request.UserUpdateRequest;

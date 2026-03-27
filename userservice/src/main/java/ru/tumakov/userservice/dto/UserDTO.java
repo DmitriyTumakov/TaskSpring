@@ -1,4 +1,4 @@
-package ru.tumakov.servicedata.dto;
+package ru.tumakov.userservice.dto;
 
 import org.springframework.hateoas.RepresentationModel;
 

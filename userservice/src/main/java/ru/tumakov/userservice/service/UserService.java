@@ -1,6 +1,6 @@
 package ru.tumakov.userservice.service;
 
-import ru.tumakov.servicedata.dto.UserDTO;
+import ru.tumakov.userservice.dto.UserDTO;
 import ru.tumakov.userservice.request.UserCreateRequest;
 import ru.tumakov.userservice.request.UserUpdateRequest;
 

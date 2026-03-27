@@ -1,6 +1,14 @@
 version: '5'
 
 services:
+  mail:
+    image: bytemark/smtp
+    restart: always
+    environment:
+      RELAY_HOST: smtp.example.com
+      RELAY_PORT: 587
+      RELAY_USERNAME: test@example.com
+      RELAY_PASSWORD: testpassword
   postgres:
     image: 'postgres:18'
     container_name: 'postgres-spring'
@@ -11,3 +19,93 @@ services:
       - 'POSTGRES_PASSWORD=password'
       - 'POSTGRES_HOST_AUTH_METHOD=trust'
       - 'POSTGRES_DB=postgres'
+  kafka1:
+    image: apache/kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@host.docker.internal:9093,2@host.docker.internal:9095,3@host.docker.internal:9097'
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://host.docker.internal:9092
+      CLUSTER_ID: 'MkU3OEVFNTQ2MDQxRkNCBN'
+    volumes:
+      - ./data:/var/lib/kafka1/data
+  kafka2:
+    image: apache/kafka:latest
+    ports:
+      - "9094:9094"
+    environment:
+      KAFKA_NODE_ID: 2
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@host.docker.internal:9093,2@host.docker.internal:9095,3@host.docker.internal:9097'
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9094,CONTROLLER://0.0.0.0:9095
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://host.docker.internal:9094
+      CLUSTER_ID: 'MkU3OEVFNTQ2MDQxRkNCBN'
+    volumes:
+      - ./data:/var/lib/kafka2/data
+  kafka3:
+    image: apache/kafka:latest
+    ports:
+      - "9096:9096"
+    environment:
+      KAFKA_NODE_ID: 3
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@host.docker.internal:9093,2@host.docker.internal:9095,3@host.docker.internal:9097'
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9096,CONTROLLER://0.0.0.0:9097
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://host.docker.internal:9096
+      CLUSTER_ID: 'MkU3OEVFNTQ2MDQxRkNCBN'
+    volumes:
+      - ./data:/var/lib/kafka3/data
+  gateway:
+    build:
+      context: ./apigateway/
+    ports:
+      - "8080:8080"
+  config:
+    build:
+      context: ./configservice/
+    ports:
+      - "8888:8888"
+  discovery:
+    build:
+      context: ./discoveryservice/
+    ports:
+      - "8761:8761"
+  user:
+    build:
+      context: ./userservice
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+      - kafka1
+      - kafka2
+      - kafka3
+      - gateway
+      - config
+      - discovery
+  notification:
+    build:
+      context: ./notificationservice
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mail
+      - kafka1
+      - kafka2
+      - kafka3
+      - gateway
+      - config
+      - discovery
+      - user
+    environment:
+      MAIL_HOST: "smtp.example.com"
+      MAIL_PORT: "587"
+      MAIL_USERNAME: "test@example.com"
+      MAIL_PASSWORD: "testpassword"
+      MAIL_SENDER: "test@example.com"

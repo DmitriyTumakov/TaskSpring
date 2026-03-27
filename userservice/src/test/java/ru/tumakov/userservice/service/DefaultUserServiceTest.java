@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import ru.tumakov.servicedata.dto.UserDTO;
+import ru.tumakov.userservice.dto.UserDTO;
 import ru.tumakov.userservice.entity.UserEntity;
 import ru.tumakov.userservice.mapper.UserMapper;
 import ru.tumakov.userservice.repository.UserRepository;
